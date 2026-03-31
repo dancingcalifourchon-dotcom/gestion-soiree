@@ -527,10 +527,13 @@ window.signInAnon = async () => {
  
 window.doSignOut = async () => {
   try {
-    await remove(ref(db,'presence/'+currentUser.uid));
+    if(currentUser) await remove(ref(db,'presence/'+currentUser.uid));
     await fbOut(auth);
-  } catch(e){}
-  location.reload();
+    // onAuthStateChanged va détecter la déconnexion et afficher le login
+  } catch(e){
+    console.error('Erreur déconnexion:', e);
+    location.reload(); // fallback uniquement
+  }
 };
  
 // ── START ─────────────────────────────────────────────────────────
