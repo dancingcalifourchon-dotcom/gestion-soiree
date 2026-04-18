@@ -9,7 +9,7 @@
 :root{--bg:#f5f5f0;--bg2:#ffffff;--bg3:#f0f0eb;--bg4:#e8e8e2;--gold:#a07828;--gold2:#c9a84c;--gold3:rgba(160,120,40,0.08);--border:rgba(160,120,40,0.2);--border2:rgba(0,0,0,0.07);--text:#1a1a2e;--muted:#6b6b8a;--muted2:#9a9ab0;--green:#1a8a5a;--red:#c0392b;--blue:#2563b0;--amber:#b07010;--purple:#6d4fcf;--r:10px;--r2:6px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
- 
+
 /* LOGIN */
 #login-screen{position:fixed;inset:0;background:var(--bg);z-index:8888;display:flex;align-items:center;justify-content:center}
 #login-screen.hidden{display:none}
@@ -21,20 +21,39 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .btn-google:hover{background:var(--bg4);border-color:var(--gold)}
 .btn-anon{background:transparent;border:1px solid var(--border2);border-radius:var(--r2);padding:10px 20px;font-family:'Outfit',sans-serif;font-size:.82rem;color:var(--muted);cursor:pointer;width:100%;transition:all .2s}
 .btn-anon:hover{color:var(--text);background:var(--bg3)}
- 
+
+/* PROJECT PICKER */
+#project-picker{position:fixed;inset:0;background:var(--bg);z-index:7777;display:none;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#project-picker.open{display:flex}
+.picker-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto}
+.picker-header{text-align:center;margin-bottom:28px}
+.picker-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);margin-bottom:6px}
+.picker-sub{font-size:.85rem;color:var(--muted)}
+.project-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.project-item{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r);padding:16px 18px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s}
+.project-item:hover{border-color:var(--gold);background:var(--bg4);transform:translateY(-1px)}
+.project-item-info{flex:1;min-width:0}
+.project-item-name{font-size:1rem;font-weight:500;color:var(--text);margin-bottom:3px}
+.project-item-meta{font-size:.75rem;color:var(--muted)}
+.project-item-actions{display:flex;gap:6px;margin-left:10px}
+.project-item-actions .btn{padding:5px 10px;font-size:.72rem}
+.picker-empty{text-align:center;padding:30px 20px;color:var(--muted);font-size:.9rem}
+.picker-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px;padding-top:20px;border-top:1px solid var(--border2)}
+.picker-user{text-align:center;padding:10px;font-size:.75rem;color:var(--muted);margin-bottom:18px;background:var(--bg3);border-radius:var(--r2)}
+
 /* SYNC */
 .sync-dot{width:8px;height:8px;border-radius:50%;background:var(--muted2);transition:background .3s}
 .sync-dot.syncing{background:var(--amber);animation:pulse 1s infinite}
 .sync-dot.synced{background:var(--green)}
 .sync-dot.error{background:var(--red)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
- 
+
 /* USERS ONLINE */
 .users-online{display:flex;align-items:center;gap:4px;font-size:.73rem;color:var(--muted)}
 .user-avatar{width:26px;height:26px;border-radius:50%;border:2px solid var(--bg2);font-size:.64rem;display:flex;align-items:center;justify-content:center;font-weight:600;margin-left:-6px;transition:transform .2s;cursor:default}
 .user-avatar:first-child{margin-left:0}
 .user-avatar:hover{transform:scale(1.15);z-index:10}
- 
+
 /* TOAST */
 .toast-container{position:fixed;bottom:24px;right:24px;z-index:9000;display:flex;flex-direction:column;gap:8px}
 .toast{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 16px;font-size:.82rem;display:flex;align-items:center;gap:10px;min-width:240px;animation:slideIn .25s ease;box-shadow:0 4px 24px rgba(0,0,0,.4)}
@@ -42,7 +61,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .toast.success{border-color:rgba(62,207,142,.3)}
 .toast.error{border-color:rgba(240,101,101,.3)}
 .toast.info{border-color:rgba(92,156,245,.3)}
- 
+
 /* ACTIVITY */
 .activity-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border2);font-size:.8rem}
 .activity-item:last-child{border-bottom:none}
@@ -50,12 +69,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .activity-text{color:var(--muted);line-height:1.5;flex:1}
 .activity-text strong{color:var(--text)}
 .activity-time{font-size:.7rem;color:var(--muted2);white-space:nowrap}
- 
+
 /* LAYOUT */
 #sidebar{position:fixed;top:0;left:0;height:100vh;width:240px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:200;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+#sidebar.hidden,#main.hidden{display:none}
 .sidebar-logo{padding:24px 20px 16px;border-bottom:1px solid var(--border)}
 .sidebar-logo h1{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);line-height:1.1}
 .sidebar-logo p{font-size:.7rem;color:var(--muted);margin-top:3px}
+.sidebar-project{padding:12px 16px;border-bottom:1px solid var(--border2);background:var(--gold3)}
+.sidebar-project-label{font-size:.62rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted2);margin-bottom:4px}
+.sidebar-project-name{font-size:.88rem;font-weight:600;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;font-family:'Cormorant Garamond',serif}
+.sidebar-project-switch{font-size:.72rem;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);background:var(--bg2);transition:all .2s}
+.sidebar-project-switch:hover{color:var(--gold);border-color:var(--gold)}
 .sidebar-user{padding:12px 16px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px}
 .sidebar-user-avatar{width:32px;height:32px;border-radius:50%;font-size:.8rem;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
 .sidebar-user-info{flex:1;min-width:0}
@@ -152,6 +177,8 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
 .form-label{font-size:.75rem;color:var(--muted);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px}
 .form-input,.form-select{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--r2);padding:9px 13px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.83rem;outline:none;transition:border-color .2s}
 .form-input:focus,.form-select:focus{border-color:var(--gold)}
+.form-check{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);cursor:pointer}
+.form-check input{cursor:pointer}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
 .status-ok{background:rgba(62,207,142,.1);color:var(--green);border:1px solid rgba(62,207,142,.25);padding:2px 7px;border-radius:12px;font-size:.68rem}
 ::-webkit-scrollbar{width:4px;height:4px}
@@ -162,7 +189,7 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
 </style>
 </head>
 <body>
- 
+
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
@@ -177,12 +204,35 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
     <div id="login-error" style="margin-top:14px;font-size:.78rem;color:var(--red);display:none"></div>
   </div>
 </div>
- 
+
+<!-- PROJECT PICKER -->
+<div id="project-picker">
+  <div class="picker-box">
+    <div class="picker-header">
+      <div class="picker-title">Vos projets</div>
+      <div class="picker-sub">Selectionnez un projet ou creez-en un nouveau</div>
+    </div>
+    <div class="picker-user" id="picker-user">Connecte en tant que &hellip;</div>
+    <div class="project-list" id="project-list">
+      <div class="picker-empty">Chargement des projets&hellip;</div>
+    </div>
+    <div class="picker-actions">
+      <button class="btn btn-primary" id="btn-new-project" onclick="openNewProjectModal()">+ Nouveau projet</button>
+      <button class="btn btn-ghost" onclick="doSignOut()">Deconnexion</button>
+    </div>
+  </div>
+</div>
+
 <!-- APP -->
-<nav id="sidebar">
+<nav id="sidebar" class="hidden">
   <div class="sidebar-logo">
     <h1>Gestion<br>Soiree</h1>
     <p>SAS 3C &mdash; Temps reel</p>
+  </div>
+  <div class="sidebar-project">
+    <div class="sidebar-project-label">Projet actuel</div>
+    <div class="sidebar-project-name" id="sb-project-name">&hellip;</div>
+    <span class="sidebar-project-switch" onclick="showProjectPicker()">&#8644; Changer de projet</span>
   </div>
   <div class="sidebar-user" id="sidebar-user">
     <div class="sidebar-user-avatar" id="su-avatar" style="background:var(--gold3);color:var(--gold)">?</div>
@@ -206,8 +256,8 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
     <span id="sync-label">Connexion...</span>
   </div>
 </nav>
- 
-<div id="main">
+
+<div id="main" class="hidden">
   <div class="topbar">
     <button id="hamburger" onclick="toggleSidebar()">&#9776;</button>
     <div class="topbar-title" id="topbar-title">Vue d'ensemble</div>
@@ -216,7 +266,7 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
       <div id="topbar-badge" style="font-size:.72rem;padding:4px 10px;border-radius:20px;background:var(--gold3);color:var(--gold);border:1px solid var(--border)">...</div>
     </div>
   </div>
- 
+
   <div class="page active" id="page-overview">
     <div class="metrics" id="ov-metrics"></div>
     <div class="overview-grid">
@@ -239,7 +289,7 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
       </div>
     </div>
   </div>
- 
+
   <div class="page" id="page-taches">
     <div class="section-header">
       <div class="section-title">Taches operationnelles</div>
@@ -257,12 +307,12 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
     </div>
     <div id="task-list"></div>
   </div>
- 
+
   <div class="page" id="page-orga">
     <div class="section-header"><div class="section-title">Organigramme des poles</div></div>
     <div class="org-grid" id="org-grid"></div>
   </div>
- 
+
   <div class="page" id="page-budget">
     <div class="section-header"><div class="section-title">Budget previsionnel</div></div>
     <div class="metrics" id="bud-metrics"></div>
@@ -275,7 +325,7 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
       <div class="result-num" id="result-num">0 EUR</div>
     </div>
   </div>
- 
+
   <div class="page" id="page-activity">
     <div class="section-header">
       <div class="section-title">Journal d'activite</div>
@@ -284,7 +334,8 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
     <div class="card" style="padding:18px"><div id="activity-feed"><div style="color:var(--muted);font-size:.82rem;text-align:center;padding:20px">Aucune activite</div></div></div>
   </div>
 </div>
- 
+
+<!-- Task modal -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <h2 id="modal-title">Nouvelle tache</h2>
@@ -305,16 +356,52 @@ select.filter{background:var(--bg3);border:1px solid var(--border2);border-radiu
     </div>
   </div>
 </div>
- 
+
+<!-- New project modal -->
+<div class="modal-overlay" id="modal-project">
+  <div class="modal">
+    <h2>Nouveau projet</h2>
+    <div class="form-group">
+      <label class="form-label">Nom du projet *</label>
+      <input class="form-input" id="np-name" placeholder="Ex : Soiree de Gala 2026">
+    </div>
+    <div class="form-group">
+      <label class="form-check">
+        <input type="checkbox" id="np-defaults" checked>
+        <span>Pre-remplir avec les taches et le budget par defaut</span>
+      </label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeNewProjectModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="createProject()">Creer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Rename project modal -->
+<div class="modal-overlay" id="modal-rename">
+  <div class="modal">
+    <h2>Renommer le projet</h2>
+    <div class="form-group">
+      <label class="form-label">Nouveau nom *</label>
+      <input class="form-input" id="rp-name" placeholder="Nom du projet">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeRenameModal()">Annuler</button>
+      <button class="btn btn-primary" onclick="confirmRenameProject()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-container" id="toasts"></div>
- 
+
 <script type="module">
 import { initializeApp }                                           from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
 import { getAuth, GoogleAuthProvider, signInWithPopup,
          signInAnonymously, onAuthStateChanged, signOut as fbOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
-import { getDatabase, ref, set, onValue, push,
+import { getDatabase, ref, set, get, onValue, push,
          remove, update, serverTimestamp, onDisconnect }           from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
- 
+
 // ── CONFIG (pre-filled) ──────────────────────────────────────────
 const firebaseConfig = {
   apiKey:            "AIzaSyC8z4I-dl4mwxyg9ZJYSO8T6RHRTusJ4UU",
@@ -326,11 +413,11 @@ const firebaseConfig = {
   appId:             "1:718743297424:web:048f9321cde66f5f462715",
   measurementId:     "G-8GHP1T1HQH"
 };
- 
+
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getDatabase(app);
- 
+
 // ── STATIC DATA ──────────────────────────────────────────────────
 const CATS=[
   {id:'bar',   label:'Bar & Restauration',    color:'#e67e22'},
@@ -351,7 +438,7 @@ const ORG=[
   {icon:'✦',title:'Pole Decoration & Ambiance',color:'#e67e22',tasks:['Coordination decoration','Identite visuelle','Eclairage ambiance']},
   {icon:'◐',title:'Responsable Budget',color:'#7a7a9a',tasks:['Suivi des depenses','Validation paiements','Optimisation couts']},
 ];
-const BUDGET_GROUPS=[
+const BUDGET_TEMPLATE=[
   {cat:'Communication',side:'charges',items:[
     {name:'Confection bande annonce',charges:0,recettes:0,statut:'ok'},
     {name:'METIS FM / RADIO PEYI',charges:0,recettes:0,statut:'ok'},
@@ -469,20 +556,41 @@ const DEFAULT_TASKS=[
   {name:"Installation et controle postes",cat:'orga',who:'',status:'todo',obs:''},
   {name:"Controle general responsables",cat:'orga',who:'',status:'todo',obs:''},
 ];
- 
+
 // ── STATE ────────────────────────────────────────────────────────
-let currentUser = null;
-let isAnon      = false;
-let taskCache   = {};
-let budTimers   = {};
-let editId      = null;
- 
+let currentUser      = null;
+let isAnon           = false;
+let taskCache        = {};
+let budTimers        = {};
+let editId           = null;
+let currentProjectId = null;
+let projectsCache    = {};
+let BUDGET_GROUPS    = cloneBudgetTemplate();
+let projectUnsubs    = [];     // functions to unsubscribe from current project listeners
+let presenceUnsub    = null;
+let projectsListInit = false;
+let renameTargetId   = null;
+
+function cloneBudgetTemplate(){
+  return BUDGET_TEMPLATE.map(g => ({
+    cat: g.cat,
+    side: g.side,
+    items: g.items.map(i => ({ name:i.name, charges:0, recettes:0, statut:i.statut||'' }))
+  }));
+}
+
+function resetBudgetToTemplate(){
+  BUDGET_GROUPS = cloneBudgetTemplate();
+}
+
 // ── HELPERS ──────────────────────────────────────────────────────
 const fmt  = n => Number(n||0).toLocaleString('fr-FR')+' \u20ac';
 const pct  = (a,b) => b ? Math.round(a/b*100) : 0;
 const ini  = n => (n||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
 const aCol = n => {const c=['#e67e22','#5c9cf5','#a78bfa','#3ecf8e','#f06565','#f5a623','#c9a84c'];let h=0;for(let i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))&0xffff;return c[h%c.length];};
- 
+const esc  = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pRef = (sub='') => 'projects/'+currentProjectId+(sub?'/'+sub:'');
+
 function toast(msg, type='info', dur=3500){
   const icons={info:'&#9432;',success:'&#10003;',error:'&#9888;'};
   const el=document.createElement('div');
@@ -491,14 +599,15 @@ function toast(msg, type='info', dur=3500){
   document.getElementById('toasts').prepend(el);
   setTimeout(()=>el.remove(), dur);
 }
- 
+
 function syncStatus(s){
   const dot=document.getElementById('sync-dot');
   const lbl=document.getElementById('sync-label');
+  if(!dot) return;
   dot.className='sync-dot '+s;
   lbl.textContent=s==='synced'?'Synchronise':s==='syncing'?'Synchronisation...':s==='error'?'Erreur':'Hors ligne';
 }
- 
+
 // ── AUTH ─────────────────────────────────────────────────────────
 onAuthStateChanged(auth, user => {
   if(user){
@@ -507,10 +616,20 @@ onAuthStateChanged(auth, user => {
     document.getElementById('login-screen').classList.add('hidden');
     startApp();
   } else {
+    // Reset everything on sign out
+    cleanupProjectSubscriptions();
+    if(presenceUnsub){ presenceUnsub(); presenceUnsub=null; }
+    currentProjectId = null;
+    projectsCache = {};
+    taskCache = {};
+    resetBudgetToTemplate();
     document.getElementById('login-screen').classList.remove('hidden');
+    document.getElementById('project-picker').classList.remove('open');
+    document.getElementById('sidebar').classList.add('hidden');
+    document.getElementById('main').classList.add('hidden');
   }
 });
- 
+
 window.signInGoogle = async () => {
   const err = document.getElementById('login-error');
   err.style.display='none';
@@ -521,111 +640,367 @@ window.signInGoogle = async () => {
     err.style.display='block';
   }
 };
- 
+
 window.signInAnon = async () => {
   try { await signInAnonymously(auth); }
   catch(e){ toast('Erreur connexion','error'); }
 };
- 
+
 window.doSignOut = async () => {
   try {
     if(currentUser) await remove(ref(db,'presence/'+currentUser.uid));
+    cleanupProjectSubscriptions();
     await fbOut(auth);
-    // onAuthStateChanged va détecter la déconnexion et afficher le login
   } catch(e){
-    console.error('Erreur déconnexion:', e);
-    location.reload(); // fallback uniquement
+    console.error('Erreur deconnexion:', e);
+    location.reload();
   }
 };
- 
+
 // ── START ─────────────────────────────────────────────────────────
-function startApp(){
+async function startApp(){
   const u = currentUser;
   const col = aCol(u.displayName||u.email||'?');
   document.getElementById('su-avatar').style.cssText=`background:${col}22;color:${col}`;
   document.getElementById('su-avatar').textContent = ini(u.displayName||u.email||'?');
   document.getElementById('su-name').textContent   = u.displayName||u.email||'Anonyme';
   document.getElementById('su-role').textContent   = isAnon ? 'Lecture seule' : 'Membre';
-  if(isAnon) document.getElementById('btn-add').style.display='none';
- 
-  setupPresence();
-  subscribeAll();
-  initDefaultData();
-  renderOrg();
-  syncStatus('syncing');
+  if(isAnon) {
+    document.getElementById('btn-add').style.display='none';
+    document.getElementById('btn-new-project').style.display='none';
+  } else {
+    document.getElementById('btn-add').style.display='';
+    document.getElementById('btn-new-project').style.display='';
+  }
+
+  // Picker header user info
+  document.getElementById('picker-user').innerHTML =
+    `Connecte en tant que <strong>${esc(u.displayName||u.email||'Anonyme')}</strong>`;
+
+  // Migrate legacy root data to a project (once)
+  await maybeMigrateLegacy();
+
+  // Load projects list and decide next screen
+  loadProjectsList();
 }
- 
-// ── PRESENCE ─────────────────────────────────────────────────────
-function setupPresence(){
-  const u = currentUser;
-  const pRef = ref(db,'presence/'+u.uid);
-  set(pRef,{name:u.displayName||'Anonyme',color:aCol(u.displayName||u.email||'?'),online:true});
-  onDisconnect(pRef).remove();
-  onValue(ref(db,'presence'), snap => {
-    const users = Object.values(snap.val()||{}).filter(x=>x.online);
-    document.getElementById('users-online').innerHTML =
-      users.map(x=>`<div class="user-avatar" style="background:${x.color}22;color:${x.color}" title="${x.name}">${ini(x.name)}</div>`).join('')
-      +`<span style="margin-left:6px">${users.length} en ligne</span>`;
+
+// ── LEGACY MIGRATION ─────────────────────────────────────────────
+async function maybeMigrateLegacy(){
+  if(isAnon) return; // read-only users cannot write
+  try {
+    const projSnap = await get(ref(db,'projects'));
+    if(projSnap.exists()) return; // already migrated
+    const tasksSnap = await get(ref(db,'tasks'));
+    const budgetSnap = await get(ref(db,'budget'));
+    const activitySnap = await get(ref(db,'activity'));
+    if(!tasksSnap.exists() && !budgetSnap.exists()) return; // nothing to migrate
+    // Create default project with ID "kindal-default"
+    const pid = 'kindal-default';
+    const updates = {};
+    updates[`projects/${pid}/meta`] = {
+      name: 'Kindal Califourchon Events',
+      createdBy: currentUser.displayName||currentUser.email||'Migration',
+      createdByUid: currentUser.uid,
+      createdAt: Date.now(),
+      migrated: true
+    };
+    if(tasksSnap.exists())    updates[`projects/${pid}/tasks`]    = tasksSnap.val();
+    if(budgetSnap.exists())   updates[`projects/${pid}/budget`]   = budgetSnap.val();
+    if(activitySnap.exists()) updates[`projects/${pid}/activity`] = activitySnap.val();
+    // Remove legacy root nodes
+    updates['tasks']    = null;
+    updates['budget']   = null;
+    updates['activity'] = null;
+    await update(ref(db), updates);
+    toast('Donnees existantes migrees dans le projet "Kindal Califourchon Events"','success',5000);
+  } catch(e){
+    console.warn('Migration ignoree:', e.message);
+  }
+}
+
+// ── PROJECTS LIST ────────────────────────────────────────────────
+function loadProjectsList(){
+  // Listen to project list continuously so picker auto-updates
+  onValue(ref(db,'projects'), snap => {
+    projectsCache = snap.val() || {};
+    renderProjectList();
+    // On first load only, decide whether to auto-select a project
+    if(!projectsListInit){
+      projectsListInit = true;
+      const stored = localStorage.getItem('lastProject_'+currentUser.uid);
+      const keys = Object.keys(projectsCache);
+      if(stored && projectsCache[stored]){
+        selectProject(stored);
+      } else if(keys.length === 1){
+        selectProject(keys[0]);
+      } else {
+        showProjectPickerScreen();
+      }
+    } else if(currentProjectId && !projectsCache[currentProjectId]){
+      // Current project was deleted by another user
+      toast('Le projet courant a ete supprime','info');
+      cleanupProjectSubscriptions();
+      currentProjectId = null;
+      showProjectPickerScreen();
+    }
   });
 }
- 
+
+function renderProjectList(){
+  const el = document.getElementById('project-list');
+  const entries = Object.entries(projectsCache).sort((a,b)=>{
+    const ta = (a[1]?.meta?.createdAt)||0;
+    const tb = (b[1]?.meta?.createdAt)||0;
+    return tb-ta;
+  });
+  if(!entries.length){
+    el.innerHTML = '<div class="picker-empty">Aucun projet pour le moment.<br>Cliquez sur "+ Nouveau projet" pour commencer.</div>';
+    return;
+  }
+  el.innerHTML = entries.map(([id, p]) => {
+    const meta = p.meta || {};
+    const name = meta.name || '(sans nom)';
+    const tasks = p.tasks ? Object.keys(p.tasks).length : 0;
+    const by = meta.createdBy || '—';
+    const dateStr = meta.createdAt ? new Date(meta.createdAt).toLocaleDateString('fr-FR') : '';
+    const actions = isAnon ? '' : `
+      <button class="btn btn-ghost" onclick="event.stopPropagation(); openRenameModal('${id}')" title="Renommer">&#9998;</button>
+      <button class="btn btn-danger" onclick="event.stopPropagation(); deleteProject('${id}')" title="Supprimer">&#10005;</button>`;
+    return `
+      <div class="project-item" onclick="selectProject('${id}')">
+        <div class="project-item-info">
+          <div class="project-item-name">${esc(name)}</div>
+          <div class="project-item-meta">${tasks} tache${tasks>1?'s':''} &middot; cree par ${esc(by)}${dateStr?' &middot; '+dateStr:''}</div>
+        </div>
+        <div class="project-item-actions">${actions}</div>
+      </div>`;
+  }).join('');
+}
+
+window.showProjectPicker = () => {
+  showProjectPickerScreen();
+};
+
+function showProjectPickerScreen(){
+  document.getElementById('project-picker').classList.add('open');
+  document.getElementById('sidebar').classList.add('hidden');
+  document.getElementById('main').classList.add('hidden');
+  renderProjectList();
+}
+
+function hideProjectPickerScreen(){
+  document.getElementById('project-picker').classList.remove('open');
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('main').classList.remove('hidden');
+}
+
+// ── PROJECT SELECT / CREATE / RENAME / DELETE ────────────────────
+window.selectProject = (id) => {
+  if(!projectsCache[id]){ toast('Projet introuvable','error'); return; }
+  // Unsubscribe previous project listeners
+  cleanupProjectSubscriptions();
+  currentProjectId = id;
+  try { localStorage.setItem('lastProject_'+currentUser.uid, id); } catch(e){}
+  // Reset local state
+  taskCache = {};
+  resetBudgetToTemplate();
+  // Update UI labels
+  const meta = projectsCache[id]?.meta || {};
+  document.getElementById('sb-project-name').textContent = meta.name || '(sans nom)';
+  hideProjectPickerScreen();
+  renderOrg();
+  syncStatus('syncing');
+  // Subscribe to project data
+  subscribeProject();
+  // Presence (includes projectId so we can filter online users by project)
+  setupPresence();
+  // Reset to overview page
+  const firstNav = document.querySelector('.nav-item');
+  if(firstNav) showPage('overview', firstNav);
+};
+
+window.openNewProjectModal = () => {
+  if(isAnon){ toast('Lecture seule','error'); return; }
+  document.getElementById('np-name').value = '';
+  document.getElementById('np-defaults').checked = true;
+  document.getElementById('modal-project').classList.add('open');
+  setTimeout(()=>document.getElementById('np-name').focus(), 100);
+};
+window.closeNewProjectModal = () => document.getElementById('modal-project').classList.remove('open');
+
+window.createProject = async () => {
+  const name = document.getElementById('np-name').value.trim();
+  const withDefaults = document.getElementById('np-defaults').checked;
+  if(!name){ alert('Nom requis'); return; }
+  syncStatus('syncing');
+  const r = push(ref(db,'projects'));
+  const pid = r.key;
+  const updates = {};
+  updates[`projects/${pid}/meta`] = {
+    name,
+    createdBy: currentUser.displayName||currentUser.email||'Utilisateur',
+    createdByUid: currentUser.uid,
+    createdAt: Date.now()
+  };
+  if(withDefaults){
+    const tasksObj = {};
+    DEFAULT_TASKS.forEach(t => {
+      const tid = push(ref(db,`projects/${pid}/tasks`)).key;
+      tasksObj[tid] = { ...t, createdBy: currentUser.displayName||'', createdAt: Date.now() };
+    });
+    updates[`projects/${pid}/tasks`]  = tasksObj;
+    updates[`projects/${pid}/budget`] = cloneBudgetTemplate().map(g => ({cat:g.cat, side:g.side, items:g.items}));
+  } else {
+    // Sentinel so nothing auto-populates
+    updates[`projects/${pid}/tasks`]  = { __empty: true };
+    updates[`projects/${pid}/budget`] = cloneBudgetTemplate().map(g => ({cat:g.cat, side:g.side, items:g.items.map(i=>({...i}))}));
+  }
+  try {
+    await update(ref(db), updates);
+    closeNewProjectModal();
+    toast('Projet cree','success');
+    // If we wrote the __empty sentinel, clean it up after creation
+    if(!withDefaults) await remove(ref(db,`projects/${pid}/tasks/__empty`));
+    selectProject(pid);
+  } catch(e){
+    syncStatus('error');
+    toast('Erreur creation : '+e.message,'error');
+  }
+};
+
+window.openRenameModal = (id) => {
+  if(isAnon){ toast('Lecture seule','error'); return; }
+  renameTargetId = id;
+  const cur = projectsCache[id]?.meta?.name || '';
+  document.getElementById('rp-name').value = cur;
+  document.getElementById('modal-rename').classList.add('open');
+  setTimeout(()=>document.getElementById('rp-name').focus(), 100);
+};
+window.closeRenameModal = () => { document.getElementById('modal-rename').classList.remove('open'); renameTargetId=null; };
+window.confirmRenameProject = async () => {
+  if(!renameTargetId) return;
+  const name = document.getElementById('rp-name').value.trim();
+  if(!name){ alert('Nom requis'); return; }
+  try {
+    await update(ref(db,`projects/${renameTargetId}/meta`), { name });
+    closeRenameModal();
+    toast('Projet renomme','success');
+    if(renameTargetId === currentProjectId){
+      document.getElementById('sb-project-name').textContent = name;
+    }
+  } catch(e){
+    toast('Erreur : '+e.message,'error');
+  }
+};
+
+window.deleteProject = async (id) => {
+  if(isAnon){ toast('Lecture seule','error'); return; }
+  const name = projectsCache[id]?.meta?.name || '(sans nom)';
+  if(!confirm(`Supprimer definitivement le projet "${name}" et toutes ses donnees ?`)) return;
+  try {
+    await remove(ref(db,`projects/${id}`));
+    toast('Projet supprime','success');
+    if(id === currentProjectId){
+      cleanupProjectSubscriptions();
+      currentProjectId = null;
+      try { localStorage.removeItem('lastProject_'+currentUser.uid); } catch(e){}
+      showProjectPickerScreen();
+    }
+  } catch(e){
+    toast('Erreur : '+e.message,'error');
+  }
+};
+
 // ── SUBSCRIPTIONS ─────────────────────────────────────────────────
-function subscribeAll(){
-  onValue(ref(db,'tasks'), snap => {
-    taskCache = snap.val()||{};
+function cleanupProjectSubscriptions(){
+  projectUnsubs.forEach(fn => { try { fn(); } catch(e){} });
+  projectUnsubs = [];
+}
+
+function subscribeProject(){
+  if(!currentProjectId) return;
+  const u1 = onValue(ref(db, pRef('tasks')), snap => {
+    const data = snap.val() || {};
+    // Filter out sentinel __empty key if present
+    delete data.__empty;
+    taskCache = data;
     renderTasks(); renderOverview(); updateTopbar();
     syncStatus('synced');
   });
-  onValue(ref(db,'budget'), snap => {
+  const u2 = onValue(ref(db, pRef('budget')), snap => {
     const data = snap.val();
-    if(data) BUDGET_GROUPS.forEach((g,gi)=>{
-      if(data[gi]?.items) data[gi].items.forEach((it,ii)=>{
-        if(g.items[ii]){ g.items[ii].charges=it.charges||0; g.items[ii].recettes=it.recettes||0; g.items[ii].statut=it.statut||''; }
+    // Reset then overlay stored values
+    resetBudgetToTemplate();
+    if(data && Array.isArray(data)){
+      data.forEach((g,gi) => {
+        if(g?.items && BUDGET_GROUPS[gi]){
+          g.items.forEach((it,ii) => {
+            if(BUDGET_GROUPS[gi].items[ii]){
+              BUDGET_GROUPS[gi].items[ii].charges  = it.charges||0;
+              BUDGET_GROUPS[gi].items[ii].recettes = it.recettes||0;
+              BUDGET_GROUPS[gi].items[ii].statut   = it.statut||'';
+            }
+          });
+        }
       });
-    });
+    }
     if(document.getElementById('page-budget').classList.contains('active')) renderBudget();
     renderOverview();
   });
-  onValue(ref(db,'activity'), snap => renderActivity(snap.val()||{}));
+  const u3 = onValue(ref(db, pRef('activity')), snap => renderActivity(snap.val()||{}));
+  projectUnsubs.push(u1, u2, u3);
 }
- 
-async function initDefaultData(){
-  onValue(ref(db,'tasks'), snap => {
-    if(!snap.exists()){
-      const batch={};
-      DEFAULT_TASKS.forEach(t=>{ const r=push(ref(db,'tasks')); batch[r.key]={...t,createdBy:currentUser.displayName||'',createdAt:Date.now()}; });
-      update(ref(db,'tasks'),batch);
+
+// ── PRESENCE ─────────────────────────────────────────────────────
+function setupPresence(){
+  if(presenceUnsub){ presenceUnsub(); presenceUnsub=null; }
+  const u = currentUser;
+  const presRef = ref(db,'presence/'+u.uid);
+  set(presRef,{
+    name: u.displayName||'Anonyme',
+    color: aCol(u.displayName||u.email||'?'),
+    online: true,
+    projectId: currentProjectId||null
+  });
+  onDisconnect(presRef).remove();
+  presenceUnsub = onValue(ref(db,'presence'), snap => {
+    const all = snap.val()||{};
+    const users = Object.values(all).filter(x => x.online && x.projectId === currentProjectId);
+    const el = document.getElementById('users-online');
+    if(el){
+      el.innerHTML =
+        users.map(x=>`<div class="user-avatar" style="background:${x.color}22;color:${x.color}" title="${esc(x.name)}">${ini(x.name)}</div>`).join('')
+        +`<span style="margin-left:6px">${users.length} en ligne</span>`;
     }
-  },{onlyOnce:true});
-  onValue(ref(db,'budget'), snap => {
-    if(!snap.exists()) set(ref(db,'budget'), BUDGET_GROUPS.map(g=>({cat:g.cat,side:g.side,items:g.items})));
-  },{onlyOnce:true});
+  });
 }
- 
+
 // ── ACTIVITY ──────────────────────────────────────────────────────
 async function log(action, detail){
-  if(isAnon) return;
-  const r = push(ref(db,'activity'));
+  if(isAnon || !currentProjectId) return;
+  const r = push(ref(db, pRef('activity')));
   await set(r,{user:currentUser.displayName||'Utilisateur',color:aCol(currentUser.displayName||'?'),action,detail,ts:Date.now()});
 }
 function renderActivity(data){
   const el=document.getElementById('activity-feed');
+  if(!el) return;
   const items=Object.entries(data).sort((a,b)=>b[1].ts-a[1].ts).slice(0,40);
   if(!items.length){el.innerHTML='<div style="color:var(--muted);font-size:.82rem;text-align:center;padding:20px">Aucune activite</div>';return;}
   el.innerHTML=items.map(([,a])=>{
     const dt=new Date(a.ts);
     const time=dt.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})+' '+dt.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
-    return `<div class="activity-item"><div class="activity-avatar" style="background:${a.color}22;color:${a.color}">${ini(a.user)}</div><div class="activity-text"><strong>${a.user}</strong> ${a.action} <em>${a.detail}</em></div><div class="activity-time">${time}</div></div>`;
+    return `<div class="activity-item"><div class="activity-avatar" style="background:${a.color}22;color:${a.color}">${ini(a.user)}</div><div class="activity-text"><strong>${esc(a.user)}</strong> ${esc(a.action)} <em>${esc(a.detail)}</em></div><div class="activity-time">${time}</div></div>`;
   }).join('');
 }
 window.clearActivity = async () => {
+  if(!currentProjectId) return;
   if(!confirm('Effacer le journal ?')) return;
-  await remove(ref(db,'activity'));
+  await remove(ref(db, pRef('activity')));
 };
- 
+
 // ── TASKS ─────────────────────────────────────────────────────────
 const getTasks = () => Object.entries(taskCache).map(([id,t])=>({...t,id}));
- 
+
 window.renderTasks = () => {
   const q  = (document.getElementById('search')||{value:''}).value.toLowerCase();
   const fc = (document.getElementById('fCat')||{value:''}).value;
@@ -640,6 +1015,7 @@ window.renderTasks = () => {
     (groups[t.cat]||(groups[t.cat]=[])).push(t);
   });
   const el=document.getElementById('task-list');
+  if(!el) return;
   let html='';
   CATS.forEach(c=>{
     const items=groups[c.id]||[];
@@ -648,8 +1024,8 @@ window.renderTasks = () => {
     html+=`<div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-header-left"><span class="card-dot" style="background:${c.color}"></span>${c.label}<span class="card-count">${items.length} tache${items.length>1?'s':''} &mdash; ${done} terminee${done>1?'s':''}</span></div><span class="chevron open">&#9660;</span></div><div class="card-body">`;
     items.forEach(t=>{
       html+=`<div class="task-row">
-        <div>${t.name}${t.obs?`<br><span style="font-size:.7rem;color:var(--muted)">${t.obs}</span>`:''}</div>
-        <div class="task-who${t.who?' assigned':''}">${t.who||'<em>Non assigne</em>'}</div>
+        <div>${esc(t.name)}${t.obs?`<br><span style="font-size:.7rem;color:var(--muted)">${esc(t.obs)}</span>`:''}</div>
+        <div class="task-who${t.who?' assigned':''}">${t.who?esc(t.who):'<em>Non assigne</em>'}</div>
         <select class="status-sel" onchange="setStatus('${t.id}',this.value)"${isAnon?' disabled':''}>
           <option value="todo"${t.status==='todo'?' selected':''}>A faire</option>
           <option value="inprog"${t.status==='inprog'?' selected':''}>En cours</option>
@@ -662,29 +1038,31 @@ window.renderTasks = () => {
   });
   el.innerHTML=html||'<div style="padding:24px;text-align:center;color:var(--muted)">Aucune tache</div>';
 };
- 
+
 window.toggleCard = h => { const b=h.nextElementSibling,ch=h.querySelector('.chevron'),hid=b.style.display==='none'; b.style.display=hid?'':'none'; ch.classList.toggle('open',hid); };
- 
+
 window.setStatus = async (id,val) => {
+  if(!currentProjectId) return;
   syncStatus('syncing');
   const old=taskCache[id];
-  await update(ref(db,'tasks/'+id),{status:val});
+  await update(ref(db, pRef('tasks/'+id)),{status:val});
   await log('a change le statut de','['+old.name+'] vers '+val);
   syncStatus('synced');
 };
- 
+
 window.deleteTask = async id => {
+  if(!currentProjectId) return;
   if(!confirm('Supprimer cette tache ?')) return;
   const name=(taskCache[id]||{}).name||'?';
-  await remove(ref(db,'tasks/'+id));
+  await remove(ref(db, pRef('tasks/'+id)));
   await log('a supprime','['+name+']');
   toast('Tache supprimee','success');
 };
- 
+
 window.openModal = () => { editId=null; document.getElementById('modal-title').textContent='Nouvelle tache'; populateModal({}); document.getElementById('modal').classList.add('open'); };
 window.editTask  = id => { editId=id; document.getElementById('modal-title').textContent='Modifier'; populateModal(taskCache[id]||{}); document.getElementById('modal').classList.add('open'); };
 window.closeModal= () => document.getElementById('modal').classList.remove('open');
- 
+
 function populateModal(t){
   const s=document.getElementById('m-cat'); s.innerHTML='';
   CATS.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.label;if(t.cat===c.id)o.selected=true;s.appendChild(o);});
@@ -693,17 +1071,18 @@ function populateModal(t){
   document.getElementById('m-status').value= t.status||'todo';
   document.getElementById('m-obs').value   = t.obs||'';
 }
- 
+
 window.saveTask = async () => {
+  if(!currentProjectId) return;
   const name=document.getElementById('m-name').value.trim();
   if(!name){alert('Nom requis');return;}
   const data={name,cat:document.getElementById('m-cat').value,who:document.getElementById('m-who').value.trim(),status:document.getElementById('m-status').value,obs:document.getElementById('m-obs').value.trim(),updatedBy:currentUser.displayName||'',updatedAt:Date.now()};
   syncStatus('syncing');
   if(editId){
-    await update(ref(db,'tasks/'+editId),data);
+    await update(ref(db, pRef('tasks/'+editId)),data);
     await log('a modifie','['+name+']');
   } else {
-    const r=push(ref(db,'tasks'));
+    const r=push(ref(db, pRef('tasks')));
     await set(r,{...data,createdBy:currentUser.displayName||'',createdAt:Date.now()});
     await log('a ajoute','['+name+']');
   }
@@ -711,7 +1090,7 @@ window.saveTask = async () => {
   closeModal();
   toast('Enregistre','success');
 };
- 
+
 // ── BUDGET ────────────────────────────────────────────────────────
 window.renderBudget = () => {
   let tC=0,tR=0;
@@ -729,7 +1108,7 @@ window.renderBudget = () => {
       html+=`<div class="budget-cat">${g.cat}</div>`;
       g.items.forEach((item,ii)=>{
         const v=side==='charges'?item.charges:item.recettes; ct+=v;
-        html+=`<div class="budget-row"><span class="budget-name">${item.name}${item.statut==='ok'?'<span class="status-ok" style="margin-left:5px">Ok</span>':''}</span>
+        html+=`<div class="budget-row"><span class="budget-name">${esc(item.name)}${item.statut==='ok'?'<span class="status-ok" style="margin-left:5px">Ok</span>':''}</span>
           <input class="budget-input ${side}" type="number" min="0" step="10" value="${v||''}" placeholder="0" onchange="updateBudget(${gi},${ii},'${side}',this.value)"${isAnon?' disabled':''}>
           <select style="font-size:.7rem;padding:4px 5px;border-radius:4px;border:1px solid var(--border2);background:var(--bg4);color:var(--text)" onchange="updateBudgetStatut(${gi},${ii},this.value)"${isAnon?' disabled':''}>
             <option value=""${!item.statut?' selected':''}>-</option>
@@ -745,23 +1124,25 @@ window.renderBudget = () => {
   const rn=document.getElementById('result-num');
   rn.textContent=(res>=0?'+':'')+fmt(res); rn.style.color=res>=0?'var(--green)':'var(--red)';
 };
- 
+
 window.updateBudget = (gi,ii,side,val) => {
+  if(!currentProjectId) return;
   BUDGET_GROUPS[gi].items[ii][side]=parseFloat(val)||0;
   clearTimeout(budTimers[gi+'_'+ii]);
   budTimers[gi+'_'+ii]=setTimeout(async()=>{
     syncStatus('syncing');
-    await update(ref(db,'budget/'+gi+'/items/'+ii),{[side]:parseFloat(val)||0});
+    await update(ref(db, pRef('budget/'+gi+'/items/'+ii)),{[side]:parseFloat(val)||0});
     await log('a mis a jour','['+BUDGET_GROUPS[gi].items[ii].name+']');
     syncStatus('synced'); renderOverview();
   },800);
 };
- 
+
 window.updateBudgetStatut = async (gi,ii,val) => {
+  if(!currentProjectId) return;
   BUDGET_GROUPS[gi].items[ii].statut=val;
-  await update(ref(db,'budget/'+gi+'/items/'+ii),{statut:val});
+  await update(ref(db, pRef('budget/'+gi+'/items/'+ii)),{statut:val});
 };
- 
+
 // ── OVERVIEW ──────────────────────────────────────────────────────
 window.renderOverview = () => {
   const tasks=getTasks(), total=tasks.length;
@@ -770,7 +1151,9 @@ window.renderOverview = () => {
   const todo=tasks.filter(t=>t.status==='todo').length;
   const asgn=tasks.filter(t=>t.who).length;
   const p=pct(done,total);
-  document.getElementById('ov-metrics').innerHTML=`
+  const ovm = document.getElementById('ov-metrics');
+  if(!ovm) return;
+  ovm.innerHTML=`
     <div class="metric-card" style="--accent:#c9a84c"><div class="metric-label">Total taches</div><div class="metric-value">${total}</div></div>
     <div class="metric-card" style="--accent:#3ecf8e"><div class="metric-label">Terminees</div><div class="metric-value" style="color:var(--green)">${done}</div><div class="metric-sub">${pct(done,total)}%</div></div>
     <div class="metric-card" style="--accent:#5c9cf5"><div class="metric-label">En cours</div><div class="metric-value" style="color:var(--blue)">${inp}</div><div class="metric-sub">${pct(inp,total)}%</div></div>
@@ -799,17 +1182,19 @@ window.renderOverview = () => {
     document.getElementById('budLegend').innerHTML=`<span class="legend-item"><span class="legend-dot" style="background:#f06565"></span>Charges ${tC?fmt(tC):'a saisir'}</span><span class="legend-item"><span class="legend-dot" style="background:#3ecf8e"></span>Recettes ${tR?fmt(tR):'a saisir'}</span>`;
   }
 };
- 
+
 function updateTopbar(){
   const tasks=getTasks(), done=tasks.filter(t=>t.status==='done').length, total=tasks.length;
-  document.getElementById('topbar-badge').textContent=done+'/'+total+' - '+pct(done,total)+'%';
+  const b=document.getElementById('topbar-badge'); if(b) b.textContent=done+'/'+total+' - '+pct(done,total)+'%';
 }
- 
+
 // ── ORG ───────────────────────────────────────────────────────────
 window.renderOrg = () => {
-  document.getElementById('org-grid').innerHTML=ORG.map(o=>`<div class="org-card"><div class="org-card-head" style="border-left:3px solid ${o.color}"><span style="font-size:1rem">${o.icon}</span><div style="font-size:.85rem;font-weight:500">${o.title}</div></div>${o.tasks.map(t=>`<div class="org-task">${t}</div>`).join('')}</div>`).join('');
+  const el=document.getElementById('org-grid');
+  if(!el) return;
+  el.innerHTML=ORG.map(o=>`<div class="org-card"><div class="org-card-head" style="border-left:3px solid ${o.color}"><span style="font-size:1rem">${o.icon}</span><div style="font-size:.85rem;font-weight:500">${o.title}</div></div>${o.tasks.map(t=>`<div class="org-task">${t}</div>`).join('')}</div>`).join('');
 };
- 
+
 // ── NAVIGATION ────────────────────────────────────────────────────
 const PAGE_TITLES={overview:"Vue d'ensemble",taches:"Taches",orga:"Organisation",budget:"Budget",activity:"Journal d'activite"};
 window.showPage = (id,btn) => {
